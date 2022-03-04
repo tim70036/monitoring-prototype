@@ -1,0 +1,30 @@
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./prometheus/config:/etc/prometheus
+      - ./prometheus/data:/prometheus
+    # command:
+    #   - '--config.file=/etc/prometheus/prometheus.yml'
+    #   - '--storage.tsdb.path=/prometheus'
+    #   - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+    #   - '--web.console.templates=/usr/share/prometheus/consoles'
+    networks:
+      - backend
+    ports:
+      - 9090:9090
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:latest
+    depends_on:
+      - prometheus
+    networks:
+      - backend
+    ports:
+      - 3000:3000
+    restart: unless-stopped
+
+networks:
+  backend:
+    driver: bridge
