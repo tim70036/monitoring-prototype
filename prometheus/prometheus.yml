@@ -37,10 +37,13 @@ scrape_configs:
         refresh_interval: 15s # Refresh interval to re-read the instance list.
     relabel_configs:
       - source_labels: [__meta_ec2_public_ip, port]
-        regex: [^;]+ # Separate by ;
+        separator: ':'
         target_label: __address__
-        action: replace
-        replacement: ${1}:${2}
-        # - source_labels: [__meta_ec2_tag_Name]
-        #   target_label: instance
+      - source_labels: [__meta_ec2_tag_Name, __meta_ec2_public_ip]
+        separator: ':'
+        target_label: instance
+      - source_labels: [__meta_ec2_instance_state] # Ignore stopped instance
+        regex: stopped
+        action: drop
+
 
