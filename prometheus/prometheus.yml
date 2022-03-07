@@ -20,10 +20,27 @@ rule_files:
 # Here it's Prometheus itself.
 scrape_configs:
   # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
-  - job_name: "macos"
+  - job_name: static
 
     # metrics_path defaults to '/metrics'
     # scheme defaults to 'http'.
 
     static_configs:
-      - targets: ["host.docker.internal:9100"]
+      - targets: [ec2-18-167-69-88.ap-east-1.compute.amazonaws.com:9100]
+
+  - job_name: aws
+    ec2_sd_configs:
+      - region: ap-east-1 # The AWS region. If blank, the region from the instance metadata is used.
+        access_key:  # The AWS API keys. If blank, the environment variables `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` are used.
+        secret_key: 
+        port: 9100
+        refresh_interval: 15s # Refresh interval to re-read the instance list.
+    relabel_configs:
+      - source_labels: [__meta_ec2_public_ip, port]
+        regex: [^;]+ # Separate by ;
+        target_label: __address__
+        action: replace
+        replacement: ${1}:${2}
+        # - source_labels: [__meta_ec2_tag_Name]
+        #   target_label: instance
+
