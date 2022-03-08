@@ -1,0 +1,9 @@
+- targets:
+    - ec2-18-167-69-88.ap-east-1.compute.amazonaws.com:9100
+  labels:
+    file_sd_type: aws
+
+- targets:
+    - 103.147.199.16:9100
+  labels:
+    file_sd_type: teson

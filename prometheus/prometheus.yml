@@ -20,19 +20,20 @@ rule_files:
 # Here it's Prometheus itself.
 scrape_configs:
   # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
-  - job_name: static
+  - job_name: file-sd
 
     # metrics_path defaults to '/metrics'
     # scheme defaults to 'http'.
 
-    static_configs:
-      - targets: [ec2-18-167-69-88.ap-east-1.compute.amazonaws.com:9100]
+    file_sd_configs:
+      # Patterns for files from which target groups are extracted.
+      - files:
+          - file-sd.yml
+        refresh_interval: 5m
 
   - job_name: aws
     ec2_sd_configs:
-      - region: ap-east-1 # The AWS region. If blank, the region from the instance metadata is used.
-        access_key:  # The AWS API keys. If blank, the environment variables `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` are used.
-        secret_key: 
+      - region: 'ap-east-1' # The AWS region. If blank, the region from the instance metadata is used. The AWS API keys. If blank, the environment variables `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` are used.
         port: 9100
         refresh_interval: 15s # Refresh interval to re-read the instance list.
     relabel_configs:

@@ -1,3 +1,5 @@
 # Visual Studio cache directory
 .vs/
 .DS_Store
+
+*.env
