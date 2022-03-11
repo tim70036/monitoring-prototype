@@ -1,7 +1,7 @@
 # my global config
 global:
-  scrape_interval: 15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
-  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
+  scrape_interval: 30s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+  evaluation_interval: 30s # Evaluate rules every 15 seconds. The default is every 1 minute.
   # scrape_timeout is set to the global default (10s).
 
 # Alertmanager configuration
@@ -19,24 +19,36 @@ rule_files:
 # A scrape configuration containing exactly one endpoint to scrape:
 # Here it's Prometheus itself.
 scrape_configs:
-  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
-  - job_name: file-sd
-
-    # metrics_path defaults to '/metrics'
-    # scheme defaults to 'http'.
-
+  - job_name: ad-hoc
     file_sd_configs:
       # Patterns for files from which target groups are extracted.
       - files:
           - file-sd.yml
-        refresh_interval: 5m
+        refresh_interval: 1m
 
-  - job_name: aws
+  - job_name: aws-development
     ec2_sd_configs:
-      - region: 'ap-east-1' # The AWS region. If blank, the region from the instance metadata is used. The AWS API keys. If blank, the environment variables `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` are used.
-        refresh_interval: 15s # Refresh interval to re-read the instance list.
+      - region: 'ap-east-1'
+        role_arn: 'arn:aws:iam::787649184717:role/PrometheusRole'
+        refresh_interval: 15s
     relabel_configs:
-      - source_labels: [__meta_ec2_public_ip]
+      - source_labels: [__meta_ec2_public_ip] # Default addresses are all private ips, have to overwrite with public ip so we can reach the target.
+        target_label: __address__
+        replacement: ${1}:9100
+      - source_labels: [__meta_ec2_tag_Name, __meta_ec2_public_ip]
+        separator: ':'
+        target_label: instance
+      - source_labels: [__meta_ec2_instance_state] # Ignore stopped instance
+        regex: stopped
+        action: drop
+
+  - job_name: aws-lom
+    ec2_sd_configs:
+      - region: 'ap-east-1'
+        role_arn: 'arn:aws:iam::827877038561:role/PrometheusRole'
+        refresh_interval: 15s
+    relabel_configs:
+      - source_labels: [__meta_ec2_public_ip] # Default addresses are all private ips, have to overwrite with public ip so we can reach the target.
         target_label: __address__
         replacement: ${1}:9100
       - source_labels: [__meta_ec2_tag_Name, __meta_ec2_public_ip]

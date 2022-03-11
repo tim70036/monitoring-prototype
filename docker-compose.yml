@@ -7,7 +7,6 @@ services:
       - '--storage.tsdb.retention.time=12w'
       - '--web.console.libraries=/usr/share/prometheus/console_libraries'
       - '--web.console.templates=/usr/share/prometheus/consoles'
-      - '--enable-feature=expand-external-labels'
     environment:
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID:?err}
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY:?err}
