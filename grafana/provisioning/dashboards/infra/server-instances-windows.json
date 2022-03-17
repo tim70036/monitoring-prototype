@@ -146,7 +146,7 @@
             "link": true,
             "linkTargetBlank": false,
             "linkTooltip": "${__cell}",
-            "linkUrl": "/d/Kdh0OoSGz/?var-hostname=All&var-instance=${__cell}",
+            "linkUrl": "/d/Kdh0OoSGz/?var-hostname=All&var-instance=${__cell}&from={__from}&to=${__to}",
             "mappingType": 1,
             "pattern": "instance",
             "thresholds": [],
