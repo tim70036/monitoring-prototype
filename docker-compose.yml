@@ -30,6 +30,9 @@ services:
       - type: volume
         source: grafana-storage
         target: /var/lib/grafana
+      - type: bind
+        source: ./grafana/provisioning
+        target: /etc/grafana/provisioning
     depends_on:
       - prometheus
     networks:
