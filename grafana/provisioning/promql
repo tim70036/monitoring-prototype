@@ -1,11 +1,14 @@
 # CPU Usage
 100 - (avg by (instance) (rate(node_cpu_seconds_total{mode="idle"}[1m])) * 100)
+100 - (avg by (instance) (rate(windows_cpu_time_total{mode="idle"}[1m]))*100)
+# $__rate_interval
 
 # Memory Usage
 (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100
+(1 - (windows_os_physical_memory_free_bytes / windows_cs_physical_memory_bytes)) * 100
 
 # Disk Usage
 (node_filesystem_size_bytes{fstype=~"ext.*|xfs",mountpoint !~".*pod.*"}-node_filesystem_free_bytes{fstype=~"ext.*|xfs",mountpoint !~".*pod.*"}) *100/(node_filesystem_avail_bytes {fstype=~"ext.*|xfs",mountpoint !~".*pod.*"}+(node_filesystem_size_bytes{fstype=~"ext.*|xfs",mountpoint !~".*pod.*"}-node_filesystem_free_bytes{fstype=~"ext.*|xfs",mountpoint !~".*pod.*"}))
-
+max by (instance) (1-windows_logical_disk_free_bytes/windows_logical_disk_size_bytes) * 100
 # Storage Szie Estimation
 # scrape interval: 15s -> 42.34 MB per instance per 24 hr
