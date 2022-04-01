@@ -1,0 +1,33 @@
+server:
+  http_listen_port: 9080
+  grpc_listen_port: 0
+
+positions:
+  # filename: /tmp/positions.yaml
+  filename: ./positions.yml
+
+clients:
+  - url: http://localhost:3100/loki/api/v1/push
+
+scrape_configs:
+  - job_name: main-server 
+    static_configs:
+      - labels:
+          job: main-server
+          # Make sure rotated log should not match. (pm2 logrotate will compress log into gzip)
+          __path__: /home/ec2-user/.pm2/logs/*main-server*.log 
+  - job_name: pm2 
+    static_configs:
+      - labels:
+          job: pm2
+          __path__: /home/ec2-user/.pm2/pm2.log
+      - labels:
+          job: pm2
+          __path__: /home/ec2-user/.pm2/logs/*pm2-logrotate*.log
+
+
+# Configures how tailed targets will be watched.
+target_config:
+  # Period to resync directories being watched and files being tailed to discover
+  # new ones or stop watching removed ones.
+  sync_period: "5s"
