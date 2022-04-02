@@ -1,14 +1,11 @@
-networks:
-  loki:
-
 services:
   loki:
     image: grafana/loki:latest
-    command: -config.file=/etc/loki/loki.yml
+    command: -config.file=/etc/loki/loki.yml -print-config-stderr
     volumes:
-      # - type: volume
-      #   source: prometheus-storage
-      #   target: /prometheus
+      - type: volume
+        source: loki-storage
+        target: /loki
       - type: bind
         source: ./loki
         target: /etc/loki
@@ -23,3 +20,9 @@ services:
       - "3000:3000"
     networks:
       - loki
+
+volumes:
+  loki-storage: {}
+
+networks:
+  loki:
