@@ -3,27 +3,65 @@ server:
   grpc_listen_port: 0
 
 positions:
-  # filename: /tmp/positions.yaml
-  filename: ./positions.yml
+  filename: ./positions.yaml
 
 clients:
-  - url: http://localhost:3100/loki/api/v1/push
+  - url: http://103.147.199.16:3100/loki/api/v1/push
 
 scrape_configs:
-  - job_name: main-server 
-    static_configs:
-      - labels:
-          job: main-server
-          # Make sure rotated log should not match. (pm2 logrotate will compress log into gzip)
-          __path__: /home/ec2-user/.pm2/logs/*main-server*.log 
-  - job_name: pm2 
-    static_configs:
-      - labels:
-          job: pm2
-          __path__: /home/ec2-user/.pm2/pm2.log
-      - labels:
-          job: pm2
-          __path__: /home/ec2-user/.pm2/logs/*pm2-logrotate*.log
+  - job_name: main-server-log
+    ec2_sd_configs:
+      - region: ${AWS_REGION:?requried}
+        role_arn: ${AWS_ROLE_ARN:?requried}
+        refresh_interval: 15s
+    relabel_configs:
+      # Make sure rotated log should not match. (config pm2 logrotate to compress log into gzip)
+      - replacement: /home/ec2-user/.pm2/logs/*main-server*.log 
+        target_label: __path__
+      # Ensuring discovered targets are only for the machine Promtail currently runs on. This is achieve by adding the label __host__ using the incoming metadata __meta_ec2_private_dns_name. If it doesn’t match the current HOSTNAME environnement variable, the target will be dropped.
+      - source_labels: [__meta_ec2_private_dns_name]
+        target_label: __host__
+      - source_labels: [__meta_ec2_tag_Name, __meta_ec2_public_ip]
+        separator: ':'
+        target_label: instance
+      - replacement: ${ENVIRONMENT:?required}
+        target_label: environment
+
+  - job_name: pm2-log
+    ec2_sd_configs:
+      - region: ${AWS_REGION:?requried}
+        role_arn: ${AWS_ROLE_ARN:?requried}
+        refresh_interval: 15s
+    relabel_configs:
+      # Make sure rotated log should not match. (config pm2 logrotate to compress log into gzip)
+      - replacement: /home/ec2-user/.pm2/pm2.log
+        target_label: __path__
+      # Ensuring discovered targets are only for the machine Promtail currently runs on. This is achieve by adding the label __host__ using the incoming metadata __meta_ec2_private_dns_name. If it doesn’t match the current HOSTNAME environnement variable, the target will be dropped.
+      - source_labels: [__meta_ec2_private_dns_name]
+        target_label: __host__
+      - source_labels: [__meta_ec2_tag_Name, __meta_ec2_public_ip]
+        separator: ':'
+        target_label: instance
+      - replacement: ${ENVIRONMENT:?required}
+        target_label: environment
+
+  - job_name: pm2-logrotate-log
+    ec2_sd_configs:
+      - region: ${AWS_REGION:?requried}
+        role_arn: ${AWS_ROLE_ARN:?requried}
+        refresh_interval: 15s
+    relabel_configs:
+      # Make sure rotated log should not match. (config pm2 logrotate to compress log into gzip)
+      - replacement: /home/ec2-user/.pm2/logs/*pm2-logrotate*.log
+        target_label: __path__
+      # Ensuring discovered targets are only for the machine Promtail currently runs on. This is achieve by adding the label __host__ using the incoming metadata __meta_ec2_private_dns_name. If it doesn’t match the current HOSTNAME environnement variable, the target will be dropped.
+      - source_labels: [__meta_ec2_private_dns_name]
+        target_label: __host__
+      - source_labels: [__meta_ec2_tag_Name, __meta_ec2_public_ip]
+        separator: ':'
+        target_label: instance
+      - replacement: ${ENVIRONMENT:?required}
+        target_label: environment
 
 
 # Configures how tailed targets will be watched.

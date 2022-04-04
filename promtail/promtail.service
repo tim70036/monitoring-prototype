@@ -1,0 +1,17 @@
+[Unit]
+Description=Promtail
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/usr/local/bin/promtail
+EnvironmentFile=/usr/local/bin/promtail/.env
+ExecStart=/usr/local/bin/promtail/promtail-linux-amd64 -print-config-stderr -config.expand-env=true -config.file ./promtail.yml
+SuccessExitStatus=143
+TimeoutStopSec=10
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
