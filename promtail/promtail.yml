@@ -82,7 +82,8 @@ scrape_configs:
         action: keep
       - source_labels: [__journal__systemd_unit]
         target_label: systemd_unit
-
+      - replacement: ${ENVIRONMENT:?required}
+        target_label: environment
 
 
 # Configures how tailed targets will be watched.
