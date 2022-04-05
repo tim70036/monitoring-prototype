@@ -1,4 +1,3 @@
-# my global config
 global:
   scrape_interval: 15s
   evaluation_interval: 15s
@@ -17,7 +16,6 @@ rule_files:
   # - "second_rules.yml"
 
 # A scrape configuration containing exactly one endpoint to scrape:
-# Here it's Prometheus itself.
 scrape_configs:
   # - job_name: ad-hoc
   #   file_sd_configs:
@@ -41,6 +39,8 @@ scrape_configs:
       - source_labels: [__meta_ec2_instance_state] # Ignore stopped instance
         regex: stopped
         action: drop
+      - replacement: staging
+        target_label: environment
 
   - job_name: aws-lom
     ec2_sd_configs:
@@ -57,5 +57,7 @@ scrape_configs:
       - source_labels: [__meta_ec2_instance_state] # Ignore stopped instance
         regex: stopped
         action: drop
+      - replacement: staging
+        target_label: environment
 
 
