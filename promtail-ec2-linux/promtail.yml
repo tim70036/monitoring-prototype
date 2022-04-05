@@ -74,12 +74,16 @@ scrape_configs:
       json: false
       max_age: 12h
       path: /var/log/journal
-      labels:
-        job: systemd-log
     relabel_configs:
-      - source_labels: [__journal__systemd_unit] # Ignore stopped instance
+      - replacement: systemd-log
+        target_label: job
+      # Include only some important service.
+      - source_labels: [__journal__systemd_unit]
         regex: (.*promtail.*|.*prometheus.*|.*sshd.*|.*systemd.*)
         action: keep
+      # We don't have ec2 data (name and public ip) for identifying instance, so we use hostname instead.
+      - source_labels: [__journal__hostname] # Should be same as $HOSTNAME env variable on the instance.
+        target_label: hostname
       - source_labels: [__journal__systemd_unit]
         target_label: systemd_unit
       - replacement: ${ENVIRONMENT:?required}

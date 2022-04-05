@@ -1,9 +1,10 @@
 
 # Download node exporter first.
-# Move node exporter to target folder, so service can run it.
-sudo mkdir /usr/local/bin/prometheus-node-exporter
+# Move it to target folder, so service can run it.
+DIR=/usr/local/bin/prometheus-node-exporter
+sudo mkdir $DIR
 chmod +x ./node_exporter
-sudo mv ./node_exporter /usr/local/bin/prometheus-node-exporter/node_exporter
+sudo mv ./node_exporter $DIR/node_exporter
 
 
 # Register service to systemd
