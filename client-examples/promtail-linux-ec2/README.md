@@ -3,7 +3,7 @@
 This repo demos installing promtail onto a AWS EC2 Linux machine. We're registering promtail as a **systemd** service. The targets that promtail scrape from is an **node.js** application managed by **pm2**. Promtail basically looks for log files that contain certain prefix and push the log content to a remote **Loki** endpoint. Specifically, it includes application log, pm2 log and systemd log from a couple service.
 
 ## Prerequisites
-1. Download promtail into this folder.
+1. Download promtail executable into this folder. You can download it from official release repo [here](https://github.com/grafana/loki/releases). You should choose `promtail-linux-amd64.zip` unless your Linux EC2 has different architecture.
 2. Ensure you have your EC2 running and the application on it is runned by **pm2**.
 3. Check whether the log files are produced. See `__path__` label in `promtail.yml` to know which files promtail looks for.
 
@@ -52,4 +52,5 @@ sudo systemctl status promtail.service
 ```
 
 ## Note
-If you want to see log, you can use `journald`. For example, `journalctl -u promtail.service`.
+- If you want to see log, you can use `journald`. For example, `journalctl -u promtail.service`.
+- You can open browser on port 9080 to see the status of promtail. (http://localhost:9080) Make sure there is no firewall rule blocking this port.
