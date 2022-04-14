@@ -23,6 +23,21 @@ services:
       - 9090:9090
     restart: unless-stopped
 
+  loki:
+    image: grafana/loki:latest
+    command: -config.file=/etc/loki/loki.yml -print-config-stderr
+    volumes:
+      - type: volume
+        source: loki-storage
+        target: /loki
+      - type: bind
+        source: ./loki
+        target: /etc/loki
+    networks:
+      - backend
+    ports:
+      - 3100:3100
+    restart: unless-stopped
 
   grafana:
     image: grafana/grafana:latest
@@ -44,6 +59,7 @@ services:
 
 volumes:
   prometheus-storage: {}
+  loki-storage: {}
   grafana-storage: {}
 
 

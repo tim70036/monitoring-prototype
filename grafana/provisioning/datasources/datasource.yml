@@ -53,7 +53,7 @@ datasources:
     # <string> custom UID which can be used to reference this datasource in other parts of the configuration, if not specified will be generated automatically
     uid:
     # <string> url
-    url: http://103.147.199.16:3100
+    url: http://loki:3100
     # <string> Deprecated, use secureJsonData.password
     password:
     # <string> database user, if used

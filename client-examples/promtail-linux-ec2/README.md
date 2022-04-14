@@ -30,6 +30,8 @@ sudo mv ./promtail.yml $DIR/promtail.yml
 ```
 sudo touch $DIR/.env
 # Set the following variables in the format `var=value` per line:
+# LOKI_HOST: the loki host that will recieve logs.
+# LOKI_PORT: the port of the loki host.
 # AWS_ACCESS_KEY_ID: crendentials for aws.
 # AWS_SECRET_ACCESS_KEY: crendentials for aws.
 # AWS_REGION: the region where machine is in.

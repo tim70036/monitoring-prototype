@@ -6,7 +6,7 @@ positions:
   filename: ./positions.yaml
 
 clients:
-  - url: http://103.147.199.16:3100/loki/api/v1/push
+  - url: http://${LOKI_HOST:?requried}:${LOKI_PORT:?requried}/loki/api/v1/push
 
 scrape_configs:
   - job_name: main-server-log
