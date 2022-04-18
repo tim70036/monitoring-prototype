@@ -17,12 +17,14 @@ rule_files:
 
 # A scrape configuration containing exactly one endpoint to scrape:
 scrape_configs:
-  # - job_name: ad-hoc
-  #   file_sd_configs:
-  #     # Patterns for files from which target groups are extracted.
-  #     - files:
-  #         - file-sd.yml
-  #       refresh_interval: 1m
+  - job_name: pqs
+    file_sd_configs:
+      - files:
+          - pqs-file-sd.yml
+        refresh_interval: 1m
+    relabel_configs:
+      - replacement: production
+        target_label: environment
 
   - job_name: aws-development
     ec2_sd_configs:
