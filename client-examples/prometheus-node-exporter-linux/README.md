@@ -4,7 +4,7 @@ This repo demos installing prometheus node exporter onto a Linux machine. We're 
 
 ## Prerequisites
 1. Download node-exporter executable into this folder. You can download it from official release repo [here](https://github.com/prometheus/node_exporter/releases). You should choose `linux-amd64` variant unless your Linux machine has different architecture.
-2. Rename the executable to `node-exporter`.
+2. Rename the executable to `node_exporter`.
 3. Ensure your prometheus instance can access port `9100` on this machine. (No firewall rule blocking this port)
 
 ## Installation
