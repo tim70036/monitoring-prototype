@@ -1,3 +1,14 @@
+x-base-config: &base-config
+  networks:
+      - backend
+  restart: unless-stopped
+  logging:
+    driver: json-file
+    options:
+      max-size: 10m
+      max-file: '5'
+      compress: 'true'
+
 services:
   prometheus:
     image: prom/prometheus:latest
@@ -17,11 +28,9 @@ services:
       - type: bind
         source: ./prometheus
         target: /etc/prometheus
-    networks:
-      - backend
     ports:
       - 9090:9090
-    restart: unless-stopped
+    <<: *base-config
 
   loki:
     image: grafana/loki:latest
@@ -33,11 +42,10 @@ services:
       - type: bind
         source: ./loki
         target: /etc/loki
-    networks:
-      - backend
     ports:
       - 3100:3100
     restart: unless-stopped
+    <<: *base-config
 
   grafana:
     image: grafana/grafana:latest
@@ -50,12 +58,9 @@ services:
         target: /etc/grafana/provisioning
     depends_on:
       - prometheus
-    networks:
-      - backend
     ports:
       - 3000:3000
-    restart: unless-stopped
-
+    <<: *base-config
 
 volumes:
   prometheus-storage: {}
