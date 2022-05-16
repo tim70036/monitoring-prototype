@@ -9,3 +9,9 @@
   labels:
     instance: game-server-4-teson:103.137.246.203
     environment: production
+
+- targets:
+    - 103.137.246.202:9100
+  labels:
+    instance: game-server-5-teson:103.137.246.202
+    environment: production
