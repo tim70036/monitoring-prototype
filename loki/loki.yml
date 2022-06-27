@@ -33,3 +33,14 @@ schema_config:
       chunks:
         prefix: chunk_
         period: 24h
+# Configures limits per-tenant or globally.
+limits_config:
+  # Retention to apply for the store, if the retention is enable on the compactor side.
+  retention_period: 336h
+
+# The compactor block configures the compactor component. This component periodically compacts index shards to more performant forms.
+compactor:
+  compaction_interval: 10m
+  retention_delete_delay: 2h # The delay after which the compactor will delete marked chunks.
+  retention_enabled: true # Set retention_enabled to true. Without this, the Compactor will only compact tables. The index period must be 24h.
+  delete_request_cancel_period: 24h
