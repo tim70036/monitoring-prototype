@@ -22,9 +22,12 @@ scrape_configs:
       - files:
           - pqs-file-sd.yml
         refresh_interval: 1m
-    relabel_configs:
-      - replacement: production
-        target_label: environment
+  
+  - job_name: test
+    file_sd_configs:
+      - files:
+          - test-file-sd.yml
+        refresh_interval: 1m
 
   - job_name: aws-development
     ec2_sd_configs:
