@@ -1,0 +1,4 @@
+- targets:
+    - oss-dev.game-soul-swe.com:9000
+  labels:
+    environment: production

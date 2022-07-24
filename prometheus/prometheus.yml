@@ -17,16 +17,24 @@ rule_files:
 
 # A scrape configuration containing exactly one endpoint to scrape:
 scrape_configs:
-  - job_name: pqs
+  - job_name: pqs-lom
     file_sd_configs:
       - files:
-          - pqs-file-sd.yml
+          - pqs-lom-file-sd.yml
         refresh_interval: 1m
   
   - job_name: test
     file_sd_configs:
       - files:
           - test-file-sd.yml
+        refresh_interval: 1m
+
+  - job_name: minio-lom
+    metrics_path: /minio/v2/metrics/cluster
+    scheme: https
+    file_sd_configs:
+      - files:
+          - minio-lom-file-sd.yml
         refresh_interval: 1m
 
   - job_name: aws-development
