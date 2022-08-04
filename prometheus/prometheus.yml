@@ -37,6 +37,14 @@ scrape_configs:
           - minio-lom-file-sd.yml
         refresh_interval: 1m
 
+  - job_name: minio-dev
+    metrics_path: /minio/v2/metrics/cluster
+    scheme: https
+    file_sd_configs:
+      - files:
+          - minio-dev-file-sd.yml
+        refresh_interval: 1m
+
   - job_name: aws-development
     ec2_sd_configs:
       - region: 'ap-east-1'

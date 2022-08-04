@@ -21,3 +21,15 @@
   labels:
     instance: minio:103.137.246.214
     environment: staging
+
+- targets:
+    - 103.137.246.215:9100
+  labels:
+    instance: minio:103.137.246.215
+    environment: production
+
+- targets:
+    - 103.137.246.216:9100
+  labels:
+    instance: minio:103.137.246.216
+    environment: production
