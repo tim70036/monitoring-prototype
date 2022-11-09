@@ -1,4 +1,10 @@
 - targets:
+    - 103.147.199.7:9100
+  labels:
+    instance: grafana:103.147.199.7
+    environment: production
+
+- targets:
     - 34.80.4.95:9100
   labels:
     instance: match-server:34.80.4.95

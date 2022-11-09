@@ -1,0 +1,50 @@
+server:
+  http_listen_port: 9080
+  grpc_listen_port: 0
+
+positions:
+  filename: ./positions.yaml # This location needs to be writeable by Promtail.
+
+client:
+  url: http://103.147.199.7:3100/loki/api/v1/push
+
+scrape_configs:
+ - job_name: cmj
+   static_configs:
+   - labels:
+      environment: ${ENVIRONMENT:?requried}  
+      instance: ${INSTANCE:?requried}
+      __path__: ${PHOTON_SERVER_DIR:?requried}\deploy\Plugins\Joker\log\joker_ChillMahjong*.log
+      job: cmj
+
+ - job_name: dmj
+   static_configs:
+   - labels:
+      environment: ${ENVIRONMENT:?requried}  
+      instance: ${INSTANCE:?requried}
+      __path__: ${PHOTON_SERVER_DIR:?requried}\deploy\Plugins\Joker\log\joker_DualMahjong*.log
+      job: dmj
+
+ - job_name: yablon
+   static_configs:
+   - labels:
+      environment: ${ENVIRONMENT:?requried}  
+      instance: ${INSTANCE:?requried}
+      __path__: ${PHOTON_SERVER_DIR:?requried}\deploy\Plugins\Joker\log\joker_Yablon*.log
+      job: yablon
+
+ - job_name: cnpkr
+   static_configs:
+   - labels:
+      environment: ${ENVIRONMENT:?requried}  
+      instance: ${INSTANCE:?requried}
+      __path__: ${PHOTON_SERVER_DIR:?requried}\deploy\Plugins\Joker\log\joker_CnPoker*.log
+      job: cnpkr
+
+ - job_name: photon
+   static_configs:
+   - labels:
+      environment: ${ENVIRONMENT:?requried}   
+      instance: ${INSTANCE:?requried}
+      __path__: ${PHOTON_SERVER_DIR:?requried}\deploy\log\*.log
+      job: photon
