@@ -22,7 +22,14 @@ scrape_configs:
       - files:
           - pqs-lom-file-sd.yml
         refresh_interval: 1m
-  
+    relabel_configs:
+      - source_labels: [__address__] # Set port here instead of in file sd yml.
+        target_label: instance
+        replacement: game-server:${1}
+      - source_labels: [__address__] # Set port here instead of in file sd yml.
+        target_label: __address__
+        replacement: ${1}:9100
+
   - job_name: test
     file_sd_configs:
       - files:

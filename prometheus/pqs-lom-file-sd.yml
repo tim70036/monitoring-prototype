@@ -1,29 +1,21 @@
+
 - targets:
-    - 103.137.246.204:9100
+    - 103.137.246.201
+    - 103.137.246.202
+    - 103.137.246.203
+    - 103.137.246.204
+    - 103.137.246.207
+    - 103.137.246.208
+    - 103.137.246.209
+    - 103.137.246.210
+    - 103.137.246.211
+    - 103.137.246.212
   labels:
-    instance: game-server:103.137.246.204
     environment: production
 
 - targets:
-    - 103.137.246.203:9100
+    - 103.137.246.205
+    - 103.137.246.206
+    
   labels:
-    instance: game-server:103.137.246.203
-    environment: production
-
-- targets:
-    - 103.137.246.202:9100
-  labels:
-    instance: game-server:103.137.246.202
-    environment: production
-
-- targets:
-    - 103.137.246.201:9100
-  labels:
-    instance: game-server:103.137.246.201
-    environment: production
-
-- targets:
-    - 103.137.246.212:9100
-  labels:
-    instance: game-server:103.137.246.212
-    environment: production
+    environment: staging

@@ -9,6 +9,7 @@ This repo demos installing promtail onto a AWS EC2 Linux machine. We're register
 
 Remember to install and config pm2-logrotate so that the disk usage will not explode. Also, you must compress rotated log to zip (set compress: true). So that promtail will not view rotated log as new log.
 ```
+pm2 install pm2-logrotate
 pm2 set pm2-logrotate:compress true
 pm2 set pm2-logrotate:rotateInterval '0 0 * * *'
 pm2 set pm2-logrotate:max_size 200M
