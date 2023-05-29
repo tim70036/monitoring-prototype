@@ -1,0 +1,5 @@
+- targets:
+    - agones-controller-metrics-service.game-soul-swe.com:9100
+  labels:
+    instance: agones-staging
+    environment: staging

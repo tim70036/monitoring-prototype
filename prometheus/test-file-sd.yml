@@ -5,18 +5,6 @@
     environment: production
 
 - targets:
-    - 34.80.4.95:9100
-  labels:
-    instance: match-server:34.80.4.95
-    environment: staging
-
-- targets:
-    - 34.80.66.188:9100
-  labels:
-    instance: match-server:34.80.66.188
-    environment: production
-
-- targets:
     - 103.137.246.213:9100
   labels:
     instance: minio:103.137.246.213

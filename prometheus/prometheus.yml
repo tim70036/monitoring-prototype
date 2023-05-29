@@ -30,6 +30,12 @@ scrape_configs:
         target_label: __address__
         replacement: ${1}:9100
 
+  - job_name: agones
+    file_sd_configs:
+      - files:
+          - agones-file-sd.yml
+        refresh_interval: 1m
+
   - job_name: test
     file_sd_configs:
       - files:
