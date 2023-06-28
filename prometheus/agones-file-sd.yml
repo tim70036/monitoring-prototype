@@ -3,3 +3,8 @@
   labels:
     instance: agones-staging
     environment: staging
+- targets:
+    - agones-controller-metrics-service.leagueofmahjong.com:9100
+  labels:
+    instance: agones-production
+    environment: production
