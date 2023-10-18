@@ -1,0 +1,57 @@
+auth_enabled: false
+
+server:
+  http_listen_port: 3100
+
+common:
+  path_prefix: /loki
+  replication_factor: 1
+  ring:
+    instance_addr: 127.0.0.1
+    kvstore:
+      store: inmemory
+
+# The storage_config block configures one of many possible stores for both the index and chunks.
+# Which configuration to be picked should be defined in schema_config block.
+storage_config:
+  filesystem:
+    directory: /loki/chunks
+  boltdb_shipper:
+    active_index_directory: /loki/index
+    shared_store: filesystem
+    cache_location: /loki/index-cache
+
+schema_config:
+  configs:
+    - from: 2020-10-24
+      store: boltdb-shipper
+      object_store: filesystem
+      schema: v11
+      index:
+        prefix: index_
+        period: 24h
+      chunks:
+        prefix: chunk_
+        period: 24h
+        
+# Configures limits per-tenant or globally.
+limits_config:
+  # Retention to apply for the store, if the retention is enable on the compactor side.
+  retention_period: 336h
+  # Timeout when querying backends (ingesters or storage) during the execution of
+  # a query request. When a specific per-tenant timeout is used, the global
+  # timeout is ignored.
+  query_timeout: 10m
+
+# The compactor block configures the compactor component. This component periodically compacts index shards to more performant forms.
+compactor:
+  # Interval at which to re-run the compaction operation.
+  compaction_interval: 10m
+  # Delay after which chunks will be fully deleted during retention.
+  retention_delete_delay: 2h
+  # Set retention_enabled to true. Without this, the Compactor will only compact tables. The index period must be 24h.
+  retention_enabled: true
+  # Allow cancellation of delete request until duration after they are created.
+  # Data would be deleted only after delete requests have been older than this
+  # duration. Ideally this should be set to at least 24h.
+  delete_request_cancel_period: 24h
