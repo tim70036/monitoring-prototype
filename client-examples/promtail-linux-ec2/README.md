@@ -57,3 +57,11 @@ sudo systemctl status promtail.service
 ## Note
 - If you want to see log, you can use `journald`. For example, `journalctl -u promtail.service`.
 - You can open browser on port 9080 to see the status of promtail. (http://localhost:9080) Make sure there is no firewall rule blocking this port.
+
+
+## Cavet
+you might need to disable firewall to allow prometheus to scrape the metrics.
+```
+systemctl stop firewalld.service
+systemctl disable firewalld.service
+```

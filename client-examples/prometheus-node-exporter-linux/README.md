@@ -32,3 +32,10 @@ sudo systemctl status prometheus-node-exporter.service
 ## Note
 - If you want to see log, you can use `journald`. For example, `journalctl -u prometheus-node-exporter.service`.
 - You can open browser on port 9100 to see the status of node exporter. (http://localhost:9100) Make sure there is no firewall rule blocking this port.
+
+## Cavet
+you might need to disable firewall to allow prometheus to scrape the metrics.
+```
+systemctl stop firewalld.service
+systemctl disable firewalld.service
+```
