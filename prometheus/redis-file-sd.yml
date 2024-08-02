@@ -1,0 +1,12 @@
+
+- targets:
+    - joker-game-server-redis-metrics-dev.game-soul-swe.com:9121
+  labels:
+    instance: joker-game-server-redis-master
+    environment: development
+
+- targets:
+    - joker-game-server-redis-metrics-staging.game-soul-swe.com:9121
+  labels:
+    instance: joker-game-server-redis-master
+    environment: staging

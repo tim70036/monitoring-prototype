@@ -36,6 +36,12 @@ scrape_configs:
           - agones-file-sd.yml
         refresh_interval: 1m
 
+  - job_name: redis
+    file_sd_configs:
+      - files:
+          - redis-file-sd.yml
+        refresh_interval: 1m
+
   - job_name: test
     file_sd_configs:
       - files:
