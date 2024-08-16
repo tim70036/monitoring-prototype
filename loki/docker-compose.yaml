@@ -12,13 +12,13 @@ x-base-config: &base-config
 services:
   loki:
     image: grafana/loki:2.9.1
-    command: -config.file=/etc/loki/loki-unity.yml -print-config-stderr
+    command: -config.file=/etc/loki/loki-unity.yaml -print-config-stderr
     volumes:
       - type: volume
         source: loki-storage
         target: /loki
       - type: bind
-        source: ./loki
+        source: ./
         target: /etc/loki
     ports:
       - 3100:3100

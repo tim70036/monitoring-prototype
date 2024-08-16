@@ -7,7 +7,7 @@ Type=simple
 User=root
 WorkingDirectory=/usr/local/bin/promtail
 EnvironmentFile=/usr/local/bin/promtail/.env
-ExecStart=/usr/local/bin/promtail/promtail-linux-amd64 -print-config-stderr -config.expand-env=true -config.file ./promtail.yml
+ExecStart=/usr/local/bin/promtail/promtail-linux-amd64 -print-config-stderr -config.expand-env=true -config.file ./promtail.yaml
 SuccessExitStatus=143
 TimeoutStopSec=10
 Restart=on-failure

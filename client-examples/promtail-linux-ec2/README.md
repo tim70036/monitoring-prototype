@@ -5,7 +5,7 @@ This repo demos installing promtail onto a AWS EC2 Linux machine. We're register
 ## Prerequisites
 1. Download promtail executable into this folder. You can download it from official release repo [here](https://github.com/grafana/loki/releases). You should choose `promtail-linux-amd64.zip` unless your Linux EC2 has different architecture.
 2. Ensure you have your EC2 running and the application on it is runned by **pm2**.
-3. Check whether the log files are produced. See `__path__` label in `promtail.yml` to know which files promtail looks for.
+3. Check whether the log files are produced. See `__path__` label in `promtail.yaml` to know which files promtail looks for.
 
 Remember to install and config pm2-logrotate so that the disk usage will not explode. Also, you must compress rotated log to zip (set compress: true). So that promtail will not view rotated log as new log.
 ```
@@ -24,7 +24,7 @@ sudo mkdir $DIR
 
 chmod +x ./promtail-linux-amd64
 sudo mv ./promtail-linux-amd64 $DIR/promtail-linux-amd64
-sudo mv ./promtail.yml $DIR/promtail.yml
+sudo mv ./promtail.yaml $DIR/promtail.yaml
 ```
 
  Manually set up enviroment variables in `.env` file in target folder. These variables enable promtail to do ec2 service discorvery and extra information for labels.
