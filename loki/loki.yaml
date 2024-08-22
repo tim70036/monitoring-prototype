@@ -18,8 +18,10 @@ storage_config:
     directory: /loki/chunks
   boltdb_shipper:
     active_index_directory: /loki/index
-    shared_store: filesystem
     cache_location: /loki/index-cache
+  tsdb_shipper:
+    active_index_directory: /loki/tsdb-index
+    cache_location: /loki/tsdb-index-cache
 
 schema_config:
   configs:
@@ -33,6 +35,14 @@ schema_config:
       chunks:
         prefix: chunk_
         period: 24h
+    - from: 2024-08-22
+      store: tsdb
+      object_store: filesystem
+      schema: v13
+      index:
+        prefix: index_
+        period: 24h
+
 # Configures limits per-tenant or globally.
 limits_config:
   # Retention to apply for the store, if the retention is enable on the compactor side.
@@ -44,3 +54,23 @@ compactor:
   retention_delete_delay: 2h # The delay after which the compactor will delete marked chunks.
   retention_enabled: true # Set retention_enabled to true. Without this, the Compactor will only compact tables. The index period must be 24h.
   delete_request_cancel_period: 24h
+  delete_request_store: filesystem
+
+ingester:
+  # chunk_encoding The chunk encoding determines which compression
+  # algorithm is used for our chunks in storage. gzip is the default
+  # and has the best compression ratio, but we suggest snappy for
+  # its faster decompression rate, which results in better query
+  # speeds.
+  chunk_encoding: snappy
+
+  # The ingester WAL (Write Ahead Log) records incoming logs and stores them on
+  # the local file systems in order to guarantee persistence of acknowledged data
+  # in the event of a process crash.
+  wal:
+    # WAL could use a lot of disk space. Can enable it if we have enough $$$$$$.
+    # Based on tests in real world:
+    # Numbers from an ingester with 5000 series ingesting ~5mb/s.
+    # Checkpoint period was 5mins.
+    # disk utilization on a WAL-only disk was steady at ~10-15GB.
+    enabled: false
