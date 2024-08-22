@@ -10,3 +10,9 @@
   labels:
     instance: joker-game-server-redis-master
     environment: staging
+
+- targets:
+    - joker-game-server-redis-metrics.leagueofmahjong.com:9121
+  labels:
+    instance: joker-game-server-redis-master
+    environment: production
