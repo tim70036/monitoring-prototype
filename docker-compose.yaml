@@ -57,6 +57,9 @@ services:
       - type: bind
         source: ./grafana/provisioning
         target: /etc/grafana/provisioning
+      - type: bind
+        source: ./grafana/grafana.ini
+        target: /etc/grafana/grafana.ini
     depends_on:
       - prometheus
     ports:
